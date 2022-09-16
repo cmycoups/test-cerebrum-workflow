@@ -54,9 +54,9 @@ jobs:
       - name: prepare test environment
         run: pip install  -r requirements/pep8.txt
       - name: prepare test environment
-        run: pip3 install  -r requirements/typecheck.txt
+        run: pip install  -r requirements/typecheck.txt
       - name: configure environment variables
-        run: export db_server="mariadb"
+        run: export db_server='mariadb'
       - name : configure environment variables
         run: export redis_host='127.0.0.1'
       - name: configure environment variables
@@ -68,11 +68,11 @@ jobs:
       - name: configure environment variables
         run: export mysql_user='root'
       - name: configure environment variables
-        run: export mysql_password=password
+        run: export mysql_password='mysql@1234'
       - name: configure environment variables
-        run: export emqx_password=password
+        run: export emqx_password='abc@1234'
       - name: configure environment variables
-        run: export redis_password=password
+        run: export redis_password='redis12345'
       - name: run data process service
         run: python main.py &
       - name: install requirements
@@ -90,7 +90,7 @@ jobs:
       - name: install requirements
         run: pip install pyjwt && pip install requests && pip install colorlog && pip install uuid && pip install loguru && pip install pytest-html
       - name: run test
-        run: export ip=127.0.0.1
+        run: export ip='127.0.0.1'
       - name: run test
         run: export emqx_root=password
       - name: run test
