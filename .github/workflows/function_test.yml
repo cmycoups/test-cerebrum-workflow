@@ -1,0 +1,95 @@
+name: test
+
+on:
+  pull_request:
+    branches:
+      - 'master'
+
+jobs:
+
+  apitest:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.8"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python }}
+      - name: install pre
+        run: sudo unalias cp 2>/dev/null || true
+      - name: install pre
+        run: sudo rm -rf openv2x-aio-master.tar.gz && wget https://openv2x.oss-ap-southeast-1.aliyuncs.com/deploy/master/openv2x-aio-master.tar.gz
+      - name: install pre
+        run: sudo rm -rf src && tar zxvf openv2x-aio-master.tar.gz
+      - name: install pre
+        run: sudo rm -rf /openv2x/data && sudo mkdir -pv /openv2x/data
+      - name: install pre
+        run: sudo cp -rf src/deploy/mysql /openv2x/data/
+      - name: install pre
+        run: sudo cp -f src/deploy/docker-compose-pre.yaml /tmp/docker-compose-pre.yaml
+      - name: install pre
+        run: sudo sed -i "s/8084/8085/" /tmp/docker-compose-pre.yaml
+      - name: install pre
+        run: sudo docker-compose -f /tmp/docker-compose-pre.yaml up -d
+      - name: prepare test environment
+        run: pip install virtualenv
+      - name: prepare test environment
+        run: python -m virtualenv .venv
+      - name: prepare test environment
+        run: . .venv/bin/activate
+      - name: prepare test environment
+        run: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements/algo.txt
+      - name: prepare test environment
+        run: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
+      - name: prepare test environment
+        run: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r test-requirements.txt
+      - name: prepare test environment
+        run: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements/bandit.txt
+      - name: prepare test environment
+        run: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements/docstyle.txt
+      - name: prepare test environment
+        run: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements/pep8.txt
+      - name: prepare test environment
+        run: pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements/typecheck.txt
+      - name : configure environment variables
+        run: export redis_host='localhost'
+      - name: configure environment variables
+        run: export mqtt_host='localhost'
+      - name: configure environment variables
+        run: export mysql_host='localhost'
+      - name: configure environment variables
+        run: export cloud_url='http://localhost:28300/api/v1'
+      - name: configure environment variables
+        run: export mysql_user='root'
+      - name: configure environment variables
+        run: export mysql_password=password
+      - name: configure environment variables
+        run: export emqx_password=password
+      - name: configure environment variables
+        run: export redis_password=password
+      - name: run data process service
+        run: python main.py &
+      - name: install requirements
+        run: pip install pyyaml
+      - name: install requirements
+        run: pip install pytest
+      - name: install requirements
+        run: pip install tavern[pytest]
+      - name: install requirements
+        run: pip install paho-mqtt
+      - name: install requirements
+        run: pip install pykwalify
+      - name: install requirements
+        run: pip install pykwalify
+      - name: install requirements
+        run: pip install pyjwt && pip install requests && pip install colorlog && pip install uuid && pip install loguru && pip install pytest-html
+      - name: run test
+        run: export ip=localhost
+      - name: run test
+        run: export emqx_root=password
+      - name: run test
+        run: sh ./function_test./function_test.sh
