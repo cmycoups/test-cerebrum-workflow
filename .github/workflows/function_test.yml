@@ -55,18 +55,6 @@ jobs:
         run: pip install  -r requirements/pep8.txt
       - name: prepare test environment
         run: pip install  -r requirements/typecheck.txt
-      - name: configure environment variables
-        env:
-          db_server: mariadb
-          redis_host: 127.0.0.1
-          mqtt_host: 127.0.0.1
-          mysql_host: 127.0.0.1
-          cloud_url: http://127.0.0.1:28300/api/v1
-          mysql_user: root
-          mysql_password: password
-          emqx_password: password
-          redis_password: password
-        run: echo $db_server
 
 #      - name: configure environment variables
 #        run: export db_server='mariadb'
@@ -87,6 +75,16 @@ jobs:
 #      - name: configure environment variables
 #        run: export redis_password='redis12345'
       - name: run data process service
+        env:
+          db_server: mariadb
+          redis_host: 127.0.0.1
+          mqtt_host: 127.0.0.1
+          mysql_host: 127.0.0.1
+          cloud_url: http://127.0.0.1:28300/api/v1
+          mysql_user: root
+          mysql_password: password
+          emqx_password: password
+          redis_password: password
         run: python main.py &
       - name: install requirements
         run: pip install pyyaml
@@ -107,4 +105,7 @@ jobs:
       - name: run test
         run: export emqx_root=password
       - name: run test
+        env:
+          ip: 127.0.0.1
+          emqx_root: password
         run: sh ./function_test/function_test.sh
