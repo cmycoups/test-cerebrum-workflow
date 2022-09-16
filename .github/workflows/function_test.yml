@@ -35,12 +35,12 @@ jobs:
         run: sudo sed -i "s/8084/8085/" /tmp/docker-compose-pre.yaml
       - name: install pre
         run: sudo docker-compose -f /tmp/docker-compose-pre.yaml up -d
-      - name: prepare test environment
-        run: pip install virtualenv
-      - name: prepare test environment
-        run: python -m virtualenv .venv
-      - name: prepare test environment
-        run: . .venv/bin/activate
+#      - name: prepare test environment
+#        run: pip install virtualenv
+#      - name: prepare test environment
+#        run: python -m virtualenv .venv
+#      - name: prepare test environment
+#        run: . .venv/bin/activate
       - name: prepare test environment
         run: pip install  -r requirements/algo.txt
       - name: prepare test environment
@@ -77,10 +77,10 @@ jobs:
       - name: run data process service
         env:
           db_server: mariadb
-          redis_host: 127.0.0.1
-          mqtt_host: 127.0.0.1
-          mysql_host: 127.0.0.1
-          cloud_url: http://127.0.0.1:28300/api/v1
+          redis_host: '127.0.0.1'
+          mqtt_host: '127.0.0.1'
+          mysql_host: '127.0.0.1'
+          cloud_url: 'http://127.0.0.1:28300/api/v1'
           mysql_user: root
           mysql_password: password
           emqx_password: password
