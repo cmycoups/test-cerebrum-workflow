@@ -92,4 +92,4 @@ jobs:
       - name: run test
         run: export emqx_root=password
       - name: run test
-        run: sh ./function_test./function_test.sh
+        run: sh ./function_test/function_test.sh
