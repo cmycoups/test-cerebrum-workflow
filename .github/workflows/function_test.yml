@@ -55,6 +55,8 @@ jobs:
         run: pip install  -r requirements/pep8.txt
       - name: prepare test environment
         run: pip3 install  -r requirements/typecheck.txt
+      - name: configure environment variables
+        run: export db_server="mariadb"
       - name : configure environment variables
         run: export redis_host='127.0.0.1'
       - name: configure environment variables
