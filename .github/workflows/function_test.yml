@@ -42,19 +42,19 @@ jobs:
       - name: prepare test environment
         run: . .venv/bin/activate
       - name: prepare test environment
-        run: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements/algo.txt
+        run: pip install  -r requirements/algo.txt
       - name: prepare test environment
-        run: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
+        run: pip install  -r requirements.txt
       - name: prepare test environment
-        run: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r test-requirements.txt
+        run: pip install  -r test-requirements.txt
       - name: prepare test environment
-        run: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements/bandit.txt
+        run: pip install  -r requirements/bandit.txt
       - name: prepare test environment
-        run: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements/docstyle.txt
+        run: pip install  -r requirements/docstyle.txt
       - name: prepare test environment
-        run: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements/pep8.txt
+        run: pip install  -r requirements/pep8.txt
       - name: prepare test environment
-        run: pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements/typecheck.txt
+        run: pip3 install  -r requirements/typecheck.txt
       - name : configure environment variables
         run: export redis_host='localhost'
       - name: configure environment variables
