@@ -56,13 +56,13 @@ jobs:
       - name: prepare test environment
         run: pip3 install  -r requirements/typecheck.txt
       - name : configure environment variables
-        run: export redis_host='localhost'
+        run: export redis_host='127.0.0.1'
       - name: configure environment variables
-        run: export mqtt_host='localhost'
+        run: export mqtt_host='127.0.0.1'
       - name: configure environment variables
-        run: export mysql_host='localhost'
+        run: export mysql_host='127.0.0.1'
       - name: configure environment variables
-        run: export cloud_url='http://localhost:28300/api/v1'
+        run: export cloud_url='http://127.0.0.1:28300/api/v1'
       - name: configure environment variables
         run: export mysql_user='root'
       - name: configure environment variables
@@ -88,7 +88,7 @@ jobs:
       - name: install requirements
         run: pip install pyjwt && pip install requests && pip install colorlog && pip install uuid && pip install loguru && pip install pytest-html
       - name: run test
-        run: export ip=localhost
+        run: export ip=127.0.0.1
       - name: run test
         run: export emqx_root=password
       - name: run test
