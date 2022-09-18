@@ -26,21 +26,26 @@ jobs:
       - name: install pre
         run: sudo rm -rf src && tar zxvf openv2x-aio-master.tar.gz
       - name: install pre
-        run: sudo rm -rf /openv2x/data && sudo mkdir -pv /openv2x/data
+        run: cd src
       - name: install pre
-        run: sudo cp -rf src/deploy/mysql /openv2x/data/
-      - name: install pre
-        run: sudo cp -f src/deploy/docker-compose-pre.yaml /tmp/docker-compose-pre.yaml
-      - name: install pre
-        run: sudo sed -i "s/8084/8085/" /tmp/docker-compose-pre.yaml
-      - name: install pre
-        run: sudo docker-compose -f /tmp/docker-compose-pre.yaml up -d
-#      - name: prepare test environment
-#        run: pip install virtualenv
-#      - name: prepare test environment
-#        run: python -m virtualenv .venv
-#      - name: prepare test environment
-#        run: . .venv/bin/activate
+        env:
+          external_ip: 127.0.0.1
+          redis_root: password
+          mariadb_root: password
+          mariadb_dandelion: password
+          emqx_root: password
+        run: bash ./install.sh
+      - name : install pre
+        run: sudo docker-compose -f /tmp/service/docker-compose-service.yaml down
+      - name : install pre
+        run : cd cerebrum
+
+      - name: pip install virtualenv
+        run: pip install virtualenv
+      - name: prepare test environment
+        run: python -m virtualenv .venv
+      - name: prepare test environment
+        run: . .venv/bin/activate
       - name: prepare test environment
         run: pip install  -r requirements/algo.txt
       - name: prepare test environment
@@ -56,56 +61,33 @@ jobs:
       - name: prepare test environment
         run: pip install  -r requirements/typecheck.txt
 
-#      - name: configure environment variables
-#        run: export db_server='mariadb'
-#      - name : configure environment variables
-#        run: export redis_host='127.0.0.1'
-#      - name: configure environment variables
-#        run: export mqtt_host='127.0.0.1'
-#      - name: configure environment variables
-#        run: export mysql_host='127.0.0.1'
-#      - name: configure environment variables
-#        run: export cloud_url='http://127.0.0.1:28300/api/v1'
-#      - name: configure environment variables
-#        run: export mysql_user='root'
-#      - name: configure environment variables
-#        run: export mysql_password='mysql@1234'
-#      - name: configure environment variables
-#        run: export emqx_password='abc@1234'
-#      - name: configure environment variables
-#        run: export redis_password='redis12345'
       - name: run data process service
         env:
-          db_server: mariadb
           redis_host: '127.0.0.1'
           mqtt_host: '127.0.0.1'
           mysql_host: '127.0.0.1'
           cloud_url: 'http://127.0.0.1:28300/api/v1'
-          mysql_user: root
+          mysql_user: 'root'
           mysql_password: password
           emqx_password: password
           redis_password: password
         run: python main.py &
-      - name: install requirements
-        run: pip install pyyaml
-      - name: install requirements
-        run: pip install pytest
-      - name: install requirements
-        run: pip install tavern[pytest]
-      - name: install requirements
-        run: pip install paho-mqtt
-      - name: install requirements
-        run: pip install pykwalify
-      - name: install requirements
-        run: pip install pykwalify
-      - name: install requirements
-        run: pip install pyjwt && pip install requests && pip install colorlog && pip install uuid && pip install loguru && pip install pytest-html
-      - name: run test
-        run: export ip='127.0.0.1'
-      - name: run test
-        run: export emqx_root=password
-      - name: run test
-        env:
-          ip: 127.0.0.1
-          emqx_root: password
-        run: sh ./function_test/function_test.sh
+#      - name: install requirements
+#        run: pip install pyyaml
+#      - name: install requirements
+#        run: pip install pytest
+#      - name: install requirements
+#        run: pip install tavern[pytest]
+#      - name: install requirements
+#        run: pip install paho-mqtt
+#      - name: install requirements
+#        run: pip install pykwalify
+#      - name: install requirements
+#        run: pip install pykwalify
+#      - name: install requirements
+#        run: pip install pyjwt && pip install requests && pip install colorlog && pip install uuid && pip install loguru && pip install pytest-html
+#      - name: run test
+#        env:
+#          ip: 127.0.0.1
+#          emqx_root: password
+#        run: sh ./function_test/function_test.sh
