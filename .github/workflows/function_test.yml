@@ -98,5 +98,5 @@ jobs:
       - name: run test
         env:
           ip: 127.0.0.1
-          emqx_root: password
+          emqx_root: abc@1234
         run: sh ./function_test/function_test.sh
