@@ -41,26 +41,26 @@ jobs:
 
       - name: pip install virtualenv
         run: pip install virtualenv
-      - name: prepare test environment
+      - name: create virtual environment
         run: python -m virtualenv .venv
-      - name: prepare test environment
+      - name: into virtual environment
         run: . .venv/bin/activate
-      - name: prepare test environment
+      - name: install requirements
         run: pip install  -r requirements/algo.txt
-      - name: prepare test environment
+      - name: install requirements
         run: pip install  -r requirements.txt
-      - name: prepare test environment
+      - name: install requirements
         run: pip install  -r test-requirements.txt
-      - name: prepare test environment
+      - name: install requirements
         run: pip install  -r requirements/bandit.txt
-      - name: prepare test environment
+      - name: install requirements
         run: pip install  -r requirements/docstyle.txt
-      - name: prepare test environment
+      - name: install requirements
         run: pip install  -r requirements/pep8.txt
-      - name: prepare test environment
+      - name: install requirements
         run: pip install  -r requirements/typecheck.txt
 
-      - name: run data process service
+      - name: run cerebrum service
         env:
           redis_host: '127.0.0.1'
           mqtt_host: '127.0.0.1'
@@ -71,6 +71,7 @@ jobs:
           emqx_password: password
           redis_password: password
         run: python main.py &
+        
       - name: install requirements
         run: pip install pyyaml
       - name: install requirements
@@ -84,7 +85,18 @@ jobs:
       - name: install requirements
         run: pip install pykwalify
       - name: install requirements
-        run: pip install pyjwt && pip install requests && pip install colorlog && pip install uuid && pip install loguru && pip install pytest-html
+        run: pip install pyjwt 
+      - name: install requirements
+        run: pip install requests
+      - name: install requirements
+        run: pip install colorlog
+      - name: install requirements
+        run: pip install uuid
+      - name: install requirements
+        run: pip install loguru
+      - name: install requirements
+        run: pip install pytest-html
+        
       - name: run test
         env:
           ip: 127.0.0.1
