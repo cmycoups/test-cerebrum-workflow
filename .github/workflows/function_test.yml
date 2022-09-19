@@ -37,9 +37,6 @@ jobs:
         run: sed -i "s/set -e//" src/install.sh && sed -n '1,3p' src/install.sh
       - name: install pre
         run: cd src && chmod +x ./install.sh && echo $external_ip && sudo -E bash ./install.sh
-      - name : install pre
-        run: sudo docker-compose -f /tmp/service/docker-compose-service.yaml down
-
 
       - name: pip install virtualenv
         run: pip install virtualenv
