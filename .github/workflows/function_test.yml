@@ -25,6 +25,12 @@ jobs:
         run: sudo rm -rf openv2x-aio-master.tar.gz && wget https://openv2x.oss-ap-southeast-1.aliyuncs.com/deploy/master/openv2x-aio-master.tar.gz
       - name: install pre
         run: sudo rm -rf src && tar zxvf openv2x-aio-master.tar.gz
+      - name: install pre
+        run: sudo sed -i "s/8084/8085/" src/deploy/docker-compose-pre.yaml
+      - name: install pre
+        run: sudo sed -i "s/8084/8085/" src/deploy/docker-compose-init.yaml
+      - name: install pre
+        run: sudo sed -i "s/8084/8085/" src/deploy/docker-compose-service.yaml
       - name : install pre
         run: sudo docker-compose -f src/deploy/docker-compose-pre.yaml up -d
       - name: install pre
