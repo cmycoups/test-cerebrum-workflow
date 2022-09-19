@@ -29,6 +29,16 @@ jobs:
         run: sudo sed -i "s/8084/8085/" src/deploy/docker-compose-pre.yaml
       - name : install pre
         run: sudo docker-compose -f src/deploy/docker-compose-pre.yaml up -d
+      - name: mkdir -pv /var/log/dandelion/
+        run: sudo mkdir -pv /var/log/dandelion/
+      - name: touch /var/log/dandelion/dandelion.log
+        run: sudo touch /var/log/dandelion/dandelion.log
+      - name: mkdir -pv /etc/dandelion
+        run: sudo mkdir -pv /etc/dandelion
+      - name: set conf
+        run: sudo cp src/deploy/dandelion/dandelion.conf /etc/dandelion/dandelion.conf
+      - name: install pre
+        run: sudo docker-compose -f src/deploy/docker-compose-init.yaml up -d
       - name: pip install virtualenv
         run: pip install virtualenv
       - name: prepare test environment
