@@ -39,6 +39,8 @@ jobs:
         run: sudo cp src/deploy/dandelion/dandelion.conf /etc/dandelion/dandelion.conf
       - name: install pre
         run: sudo docker-compose -f src/deploy/docker-compose-init.yaml up -d
+      - name: install pre
+        run: sleep 60
       - name: pip install virtualenv
         run: pip install virtualenv
       - name: prepare test environment
