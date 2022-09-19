@@ -29,6 +29,10 @@ jobs:
         run: sudo sed -i "s/8084/8085/" src/deploy/docker-compose-pre.yaml
       - name : install pre
         run: sudo docker-compose -f src/deploy/docker-compose-pre.yaml up -d
+      - name: install pre
+        run: sudo sed -i "s/8084/8085/" src/deploy/docker-compose-service.yaml
+      - name: install pre
+        run: sudo docker-compose -f src/deploy/docker-compose-service.yaml up -d
       - name: pip install virtualenv
         run: pip install virtualenv
       - name: prepare test environment
