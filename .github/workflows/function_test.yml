@@ -29,10 +29,6 @@ jobs:
         run: sudo sed -i "s/8084/8085/" src/deploy/docker-compose-pre.yaml
       - name : install pre
         run: sudo docker-compose -f src/deploy/docker-compose-pre.yaml up -d
-      - name: install pre
-        run: sudo sed -i "s/8084/8085/" src/deploy/docker-compose-service.yaml
-      - name: install pre
-        run: sudo docker-compose -f src/deploy/docker-compose-service.yaml up -d
       - name: pip install virtualenv
         run: pip install virtualenv
       - name: prepare test environment
@@ -61,9 +57,9 @@ jobs:
           mysql_host: '127.0.0.1'
           cloud_url: 'http://127.0.0.1:28300/api/v1'
           mysql_user: 'root'
-          mysql_password: password
-          emqx_password: password
-          redis_password: password
+          mysql_password: mysql@1234
+          emqx_password: abc@1234
+          redis_password: redis12345
         run: python main.py &
 #      - name: install requirements
 #        run: pip install pyyaml
