@@ -4,12 +4,6 @@ on:
   push:
     branches:
       - 'main'
-env:
-  external_ip: 127.0.0.1
-  redis_root: password
-  mariadb_root: password
-  mariadb_dandelion: password
-  emqx_root: password
 
 jobs:
 
@@ -25,6 +19,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python }}
+
       - name: install pre
         run: sudo unalias cp 2>/dev/null || true
       - name: install pre
@@ -32,11 +27,11 @@ jobs:
       - name: install pre
         run: sudo rm -rf src && tar zxvf openv2x-aio-master.tar.gz
       - name: install pre
-        run: sudo sed -i "s/8084/8085/" src/deploy/docker-compose-pre.yaml && sudo sed -i "s/8084/8085/" src/deploy/docker-compose-init.yaml && sudo sed -i "s/8084/8085/" src/deploy/docker-compose-service.yaml
-      - name: install pre
-        run: sed -i "s/set -e//" src/install.sh && sed -n '1,3p' src/install.sh
-      - name: install pre
-        run: cd src && chmod +x ./install.sh && echo $external_ip && sudo -E bash ./install.sh
+        run: sudo sed -i "s/8084/8085/" src/deploy/docker-compose-pre.yaml && sudo sed -i "s/8084/8085/" src/deploy/docker-compose-service.yaml
+      - name: install openv2x
+        run: cd src && chmod +x ./install.sh && sudo -E bash ./install.sh
+      - name: stop cerebrum
+        run: docker stop cerebrum
 
       - name: pip install virtualenv
         run: pip install virtualenv
@@ -89,4 +84,3 @@ jobs:
           ip: 127.0.0.1
           emqx_root: password
         run: sh ./function_test/function_test.sh
-       
