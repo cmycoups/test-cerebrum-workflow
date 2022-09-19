@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - 'main'
+env:
+  external_ip: 127.0.0.1
+  redis_root: password
+  mariadb_root: password
+  mariadb_dandelion: password
+  emqx_root: password
 
 jobs:
 
