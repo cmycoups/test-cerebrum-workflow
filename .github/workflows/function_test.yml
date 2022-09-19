@@ -40,7 +40,7 @@ jobs:
       - name: install pre
         run: sudo docker-compose -f src/deploy/docker-compose-init.yaml up -d
       - name: install pre
-        run: sleep 120
+        run: sleep 180
       - name: pip install virtualenv
         run: pip install virtualenv
       - name: prepare test environment
