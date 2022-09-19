@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - 'main'
+env:
+  external_ip: 127.0.0.1
+  redis_root: password
+  mariadb_root: password
+  mariadb_dandelion: password
+  emqx_root: password
 
 jobs:
 
@@ -26,29 +32,15 @@ jobs:
       - name: install pre
         run: sudo rm -rf src && tar zxvf openv2x-aio-master.tar.gz
       - name: install pre
-        run: sudo rm -rf /openv2x/data && sudo mkdir -pv /openv2x/data
+        run: sudo sed -i "s/8084/8085/" src/deploy/docker-compose-pre.yaml && sudo sed -i "s/8084/8085/" src/deploy/docker-compose-init.yaml && sudo sed -i "s/8084/8085/" src/deploy/docker-compose-service.yaml
       - name: install pre
-        run: sudo cp -rf src/deploy/mysql /openv2x/data/
+        run: sed -i "s/set -e//" src/install.sh && sed -n '1,3p' src/install.sh
       - name: install pre
-        run: sudo cp -f src/deploy/docker-compose-pre.yaml /tmp/docker-compose-pre.yaml
-      - name: install pre
-        run: sudo sed -i "s/8084/8085/" /tmp/docker-compose-pre.yaml
-      - name: install pre
-        run: sudo docker-compose -f /tmp/docker-compose-pre.yaml up -d
-#      - name: mkdir -pv /var/log/dandelion/
-#        run: sudo mkdir -pv /var/log/dandelion/
-#      - name: touch /var/log/dandelion/dandelion.log
-#        run: sudo touch /var/log/dandelion/dandelion.log
-      - name: mkdir -pv /etc/dandelion
-        run: sudo mkdir -pv /etc/dandelion
-      - name: set conf
-        run: sudo cp src/deploy/dandelion/dandelion.conf /etc/dandelion/dandelion.conf
-      - name: install pre
-        run: sudo docker-compose -f src/deploy/docker-compose-init.yaml up -d
-#      - name: Sleep for 30 seconds
-#        uses: whatnick/wait-action@master
-#        with:
-#          time: '30s'
+        run: cd src && chmod +x ./install.sh && echo $external_ip && sudo -E bash ./install.sh
+      - name : install pre
+        run: sudo docker-compose -f /tmp/service/docker-compose-service.yaml down
+
+
       - name: pip install virtualenv
         run: pip install virtualenv
       - name: prepare test environment
@@ -77,9 +69,9 @@ jobs:
           mysql_host: '127.0.0.1'
           cloud_url: 'http://127.0.0.1:28300/api/v1'
           mysql_user: 'root'
-          mysql_password: mysql@1234
-          emqx_password: abc@1234
-          redis_password: redis12345
+          mysql_password: password
+          emqx_password: password
+          redis_password: password
         run: python main.py &
       - name: install requirements
         run: pip install pyyaml
@@ -98,5 +90,6 @@ jobs:
       - name: run test
         env:
           ip: 127.0.0.1
-          emqx_root: abc@1234
+          emqx_root: password
         run: sh ./function_test/function_test.sh
+       
