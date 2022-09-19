@@ -39,12 +39,12 @@ jobs:
 #        run: sudo mkdir -pv /var/log/dandelion/
 #      - name: touch /var/log/dandelion/dandelion.log
 #        run: sudo touch /var/log/dandelion/dandelion.log
-      - name: mkdir -pv /etc/dandelion
-        run: sudo mkdir -pv /etc/dandelion
-      - name: set conf
-        run: sudo cp src/deploy/dandelion/dandelion.conf /etc/dandelion/dandelion.conf
-      - name: install pre
-        run: sudo docker-compose -f src/deploy/docker-compose-init.yaml up -d
+#      - name: mkdir -pv /etc/dandelion
+#        run: sudo mkdir -pv /etc/dandelion
+#      - name: set conf
+#        run: sudo cp src/deploy/dandelion/dandelion.conf /etc/dandelion/dandelion.conf
+#      - name: install pre
+#        run: sudo docker-compose -f src/deploy/docker-compose-init.yaml up -d
 #      - name: Sleep for 30 seconds
 #        uses: whatnick/wait-action@master
 #        with:
