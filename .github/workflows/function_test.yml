@@ -25,18 +25,12 @@ jobs:
         run: sudo rm -rf openv2x-aio-master.tar.gz && wget https://openv2x.oss-ap-southeast-1.aliyuncs.com/deploy/master/openv2x-aio-master.tar.gz
       - name: install pre
         run: sudo rm -rf src && tar zxvf openv2x-aio-master.tar.gz
+      - name : install pre
+        run: sudo docker-compose -f /src/deploy/docker-compose-pre.yaml up -d
       - name: install pre
-        env:
-          external_ip: 127.0.0.1
-          redis_root: password
-          mariadb_root: password
-          mariadb_dandelion: password
-          emqx_root: password
-        run: cd src && bash install.sh 
-      - name : install pre
-        run: sudo docker-compose -f /tmp/service/docker-compose-service.yaml down
-      - name : install pre
-        run : cd cerebrum
+        run: sudo docker-compose -f /src/deploy/docker-compose-init.yaml up -d
+      - name: install pre
+        run: sudo docker-compose -f /src/deploy/docker-compose-service.yaml up -d
 
       - name: pip install virtualenv
         run: pip install virtualenv
