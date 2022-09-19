@@ -26,11 +26,11 @@ jobs:
       - name: install pre
         run: sudo rm -rf src && tar zxvf openv2x-aio-master.tar.gz
       - name : install pre
-        run: sudo docker-compose -f /src/deploy/docker-compose-pre.yaml up -d
+        run: sudo docker-compose -f src/deploy/docker-compose-pre.yaml up -d
       - name: install pre
-        run: sudo docker-compose -f /src/deploy/docker-compose-init.yaml up -d
+        run: sudo docker-compose -f src/deploy/docker-compose-init.yaml up -d
       - name: install pre
-        run: sudo docker-compose -f /src/deploy/docker-compose-service.yaml up -d
+        run: sudo docker-compose -f src/deploy/docker-compose-service.yaml up -d
 
       - name: pip install virtualenv
         run: pip install virtualenv
