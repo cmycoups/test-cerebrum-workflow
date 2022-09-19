@@ -45,10 +45,10 @@ jobs:
         run: sudo cp src/deploy/dandelion/dandelion.conf /etc/dandelion/dandelion.conf
       - name: install pre
         run: sudo docker-compose -f src/deploy/docker-compose-init.yaml up -d
-      - name: Sleep for 30 seconds
-        uses: whatnick/wait-action@master
-        with:
-          time: '30s'
+#      - name: Sleep for 30 seconds
+#        uses: whatnick/wait-action@master
+#        with:
+#          time: '30s'
       - name: pip install virtualenv
         run: pip install virtualenv
       - name: prepare test environment
@@ -81,22 +81,22 @@ jobs:
           emqx_password: abc@1234
           redis_password: redis12345
         run: python main.py &
-#      - name: install requirements
-#        run: pip install pyyaml
-#      - name: install requirements
-#        run: pip install pytest
-#      - name: install requirements
-#        run: pip install tavern[pytest]
-#      - name: install requirements
-#        run: pip install paho-mqtt
-#      - name: install requirements
-#        run: pip install pykwalify
-#      - name: install requirements
-#        run: pip install pykwalify
-#      - name: install requirements
-#        run: pip install pyjwt && pip install requests && pip install colorlog && pip install uuid && pip install loguru && pip install pytest-html
-#      - name: run test
-#        env:
-#          ip: 127.0.0.1
-#          emqx_root: password
-#        run: sh ./function_test/function_test.sh
+      - name: install requirements
+        run: pip install pyyaml
+      - name: install requirements
+        run: pip install pytest
+      - name: install requirements
+        run: pip install tavern[pytest]
+      - name: install requirements
+        run: pip install paho-mqtt
+      - name: install requirements
+        run: pip install pykwalify
+      - name: install requirements
+        run: pip install pykwalify
+      - name: install requirements
+        run: pip install pyjwt && pip install requests && pip install colorlog && pip install uuid && pip install loguru && pip install pytest-html
+      - name: run test
+        env:
+          ip: 127.0.0.1
+          emqx_root: password
+        run: sh ./function_test/function_test.sh
