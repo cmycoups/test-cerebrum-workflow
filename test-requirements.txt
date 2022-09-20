@@ -12,7 +12,7 @@ stestr>=3.0.1 # Apache-2.0
 pyyaml
 tavern[pytest]
 paho-mqtt
-pykwalify=1.7.0
+pykwalify==1.7.0
 pyjwt
 requests
 colorlog
