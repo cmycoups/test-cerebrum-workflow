@@ -46,4 +46,4 @@ stages:
     mqtt_response:
       topic: V2X/RSU/R328328/RSM/DOWN
       payload: !anything
-      timeout: 1
+      timeout: 3
