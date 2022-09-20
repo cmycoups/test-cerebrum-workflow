@@ -4,10 +4,24 @@ on:
   push:
     branches:
       - 'main'
+env:
+  external_ip: 127.0.0.1
+  redis_root: password
+  mariadb_root: password
+  mariadb_dandelion: password
+  emqx_root: password
+  redis_host: '127.0.0.1'
+  mqtt_host: '127.0.0.1'
+  mysql_host: '127.0.0.1'
+  cloud_url: 'http://127.0.0.1:28300/api/v1'
+  mysql_user: 'root'
+  mysql_password: password
+  emqx_password: password
+  redis_password: password
 
 jobs:
 
-  apitest:
+  function_test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -19,6 +33,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python }}
+
       - name: install pre
         run: sudo unalias cp 2>/dev/null || true
       - name: install pre
@@ -26,77 +41,24 @@ jobs:
       - name: install pre
         run: sudo rm -rf src && tar zxvf openv2x-aio-master.tar.gz
       - name: install pre
-        run: sudo rm -rf /openv2x/data && sudo mkdir -pv /openv2x/data
-      - name: install pre
-        run: sudo cp -rf src/deploy/mysql /openv2x/data/
-      - name: install pre
-        run: sudo cp -f src/deploy/docker-compose-pre.yaml /tmp/docker-compose-pre.yaml
-      - name: install pre
-        run: sudo sed -i "s/8084/8085/" /tmp/docker-compose-pre.yaml
-      - name: install pre
-        run: sudo docker-compose -f /tmp/docker-compose-pre.yaml up -d
-#      - name: mkdir -pv /var/log/dandelion/
-#        run: sudo mkdir -pv /var/log/dandelion/
-#      - name: touch /var/log/dandelion/dandelion.log
-#        run: sudo touch /var/log/dandelion/dandelion.log
-#      - name: mkdir -pv /etc/dandelion
-#        run: sudo mkdir -pv /etc/dandelion
-#      - name: set conf
-#        run: sudo cp src/deploy/dandelion/dandelion.conf /etc/dandelion/dandelion.conf
-#      - name: install pre
-#        run: sudo docker-compose -f src/deploy/docker-compose-init.yaml up -d
-#      - name: Sleep for 30 seconds
-#        uses: whatnick/wait-action@master
-#        with:
-#          time: '30s'
+        run: sudo sed -i "s/8084/8085/" src/deploy/docker-compose-pre.yaml && sudo sed -i "s/8084/8085/" src/deploy/docker-compose-service.yaml
+      - name: install openv2x
+        run: cd src && chmod +x ./install.sh && sudo -E bash ./install.sh
+      - name: stop cerebrum
+        run: sudo docker stop cerebrum
       - name: pip install virtualenv
         run: pip install virtualenv
-      - name: prepare test environment
+      - name: create virtual environment
         run: python -m virtualenv .venv
-      - name: prepare test environment
+      - name: into virtual environment
         run: . .venv/bin/activate
-      - name: prepare test environment
-        run: pip install  -r requirements/algo.txt
-      - name: prepare test environment
-        run: pip install  -r requirements.txt
-      - name: prepare test environment
-        run: pip install  -r test-requirements.txt
-      - name: prepare test environment
-        run: pip install  -r requirements/bandit.txt
-      - name: prepare test environment
-        run: pip install  -r requirements/docstyle.txt
-      - name: prepare test environment
-        run: pip install  -r requirements/pep8.txt
-      - name: prepare test environment
-        run: pip install  -r requirements/typecheck.txt
-
-      - name: run data process service
-        env:
-          redis_host: '127.0.0.1'
-          mqtt_host: '127.0.0.1'
-          mysql_host: '127.0.0.1'
-          cloud_url: 'http://127.0.0.1:28300/api/v1'
-          mysql_user: 'root'
-          mysql_password: mysql@1234
-          emqx_password: abc@1234
-          redis_password: redis12345
+      - name: install requirements
+        run: pip install  -r requirements/algo.txt -r requirements.txt -r test-requirements.txt
+      - name: run cerebrum service
         run: python main.py &
-      - name: install requirements
-        run: pip install pyyaml
-      - name: install requirements
-        run: pip install pytest
-      - name: install requirements
-        run: pip install tavern[pytest]
-      - name: install requirements
-        run: pip install paho-mqtt
-      - name: install requirements
-        run: pip install pykwalify
-      - name: install requirements
-        run: pip install pykwalify
-      - name: install requirements
-        run: pip install pyjwt && pip install requests && pip install colorlog && pip install uuid && pip install loguru && pip install pytest-html
-      - name: run test
+
+      - name: run test cases
         env:
           ip: 127.0.0.1
-          emqx_root: abc@1234
+          emqx_root: password
         run: sh ./function_test/function_test.sh

@@ -7,3 +7,15 @@ pytest>=7.1.2 # MIT
 pytest-cov>=3.0.0 # MIT
 
 stestr>=3.0.1 # Apache-2.0
+
+# function test need
+pyyaml
+tavern[pytest]
+paho-mqtt
+pykwalify
+pyjwt
+requests
+colorlog
+uuid
+loguru
+pytest-html
